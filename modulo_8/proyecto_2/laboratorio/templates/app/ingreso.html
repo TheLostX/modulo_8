@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Ingreso</h1>
+    <form action="/ingreso/" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">patente</label>
+          <input type="text" name="patente" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar vehículo al estacionamiento</button>
+    </form>
+
+    {% if mensaje %}
+        <h2> {{mensaje}} </h2>
+    {% endif %}
+
+{% endblock content %}
+

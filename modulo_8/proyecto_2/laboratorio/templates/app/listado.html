@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Listado</h1>
+
+  <form action="/listado/" method="get">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+
+            <input class="form-control" value="{{patente}}" type="text" placeholder="patente" name="patente" />
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="exampleComboBox" name="estacionado" aria-label="Selecciona una opción"  >
+              <option {% if estacionado == "Todos" %}selected{% endif %}>Todos</option>
+              <option {% if estacionado == "1" %}selected{% endif %} value="1">Estacionado</option>
+              <option {% if estacionado == "2" %}selected{% endif %} value="2">No Estacionado</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <label class="form-label" for="">Desde</label>
+              <input class="form-control" name="fecha_desde" type="datetime-local"  id="fecha_desde"  value="{{desde}}"/>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <label class="form-label" for="fecha_hasta">Hasta</label>
+              <input class="form-control" name="fecha_hasta" type="datetime-local"  id="fecha_hasta"  value="{{hasta}}" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div>
+              <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Patente</th>
+        <th scope="col">Estacionado</th>
+        <th scope="col">Hora Entrada</th>
+        <th scope="col">Hora Salida</th>
+        <th scope="col">Minutos</th>
+        <th scope="col">Tarifa</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vehiculo in vehiculos %}
+        <tr>
+          <td></td>
+          <td>{{ vehiculo.patente.patente }}</td>
+          <td>
+            <input disabled {% if vehiculo.patente.estacionado == True and vehiculo.patente.estacionamienrtos_id ==  vehiculo.id %} checked {% endif %} type="checkbox" />
+          </td>
+          <td>
+            {{ vehiculo.fecha_entreda|date:'d/m/Y H:i' }}</td>
+          <td>
+              {{ vehiculo.fecha_salida|date:'d/m/Y H:i' }}
+          </td>
+          <td>
+            {{vehiculo.minutos}}
+          </td>
+          <td>
+            {{ vehiculo.tarifa }}
+          </td>
+          <td>
+            {{vehiculo.monto}}
+          </td>
+          <td>
+            {% if vehiculo.patente.estacionado == True and vehiculo.id == vehiculo.patente.estacionamienrtos_id %} 
+            <a href="/salida/?accion=buscar&patente={{ vehiculo.patente.patente }}">Salida</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

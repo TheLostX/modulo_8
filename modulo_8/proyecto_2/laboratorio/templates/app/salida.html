@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Salida</h1>
+
+    <form action="/salida/" method="get">
+        <div class="input-group mb-3">
+            <input type="hidden" value="buscar" name="accion">
+            <input type="text" name="patente" class="form-control" placeholder="Patente" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2"><button type="submit" class="btn btn-primary">Buscar</button></span>
+        </div>
+    
+        <a href="/listado/?estacionado=1" class="btn btn-primary">Buscar Patentes</a>
+        
+    </form>
+
+    {% if error.mensaje %}
+        <h2> {{error.mensaje}} </h2>
+    {% endif %}
+    {% if estacionamiento %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Patente</th>
+                <th scope="col">Hora Entrada</th>
+                <th scope="col">Hora Salida</th>
+                <th scope="col">Minutos</th>
+                <th scope="col">Tarifa</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Accion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>{{estacionamiento.patente}}</td>
+                <td>{{estacionamiento.fecha_entreda|date:"d/m/Y H:i"}}</td>
+                <td>{{estacionamiento.fecha_salida|date:"d/m/Y H:i"}}</td>
+                <td>{{estacionamiento.minutos}}</td>
+                <td>{{estacionamiento.tarifa}}</td>
+                <td>{{estacionamiento.monto}}</td>
+                <td><a href="/salida/?accion=salida&patente={{estacionamiento.patente}}">Salida</a></td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+    
+
+{% endblock content %}
+
+
